@@ -3,20 +3,22 @@
  * 根reducer
  */
 import { combineReducers } from 'redux';
-import Strolling from './strollingReducer';
-import Foods from './foodsReducer';
 import FoodsList from './foodsListReducer';
 import FoodCompare from './foodCompareReducer';
 import FoodInfo from './foodInfoReducer';
 import Search from './searchReducer';
-import User from './userReducer';
+import feedHome from './feed/feedHomeListReducer';
+import feedDelicacy from './feed/feedDelicacyListReducer';
+import feedEvaluating from './feed/feedEvaluatingListReducer';
+import feedKnowledge from './feed/feedKnowledgeListReducer';
 
 export default rootReducer = combineReducers({
-    Strolling,
-    Foods,
     FoodsList,
     FoodCompare,
     FoodInfo,
     Search,
-    User,
+    feedHome,
+    feedDelicacy,
+    feedEvaluating,
+    feedKnowledge
 })

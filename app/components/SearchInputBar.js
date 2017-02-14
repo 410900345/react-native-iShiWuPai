@@ -8,36 +8,34 @@ import {
     TextInput,
     TouchableOpacity,
     Image,
-    PixelRatio
+    Platform
 } from 'react-native';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
 import Common from '../common/constants';
 
 export default class SearchInputBar extends React.Component {
     render() {
-        const {backAction, searchAction} = this.props
         return (
-            <View style={styles.navigationBar}>
-                <View style={styles.statusBar}/>
+            <View style={styles.searchContainer}>
                 <TouchableOpacity
                     activeOpacity={0.75}
-                    style={styles.leftIcon}
-                    onPress={backAction}
+                    style={styles.backIcon}
+                    onPress={this.props.backAction}
                 >
-                    <Icon name="angle-left" size={30} color="black"/>
+                    <Image style={{width: 24, height: 24}} source={require('../resource/ic_back_search.png')}/>
                 </TouchableOpacity>
                 <TextInput
                     style={styles.textInput}
                     placeholder='请输入食物名称'
+                    underlineColorAndroid="transparent"
                     {...this.props}
                 />
                 <TouchableOpacity
                     style={styles.searchIcon}
                     activeOpacity={0.75}
-                    onPress={searchAction}
+                    onPress={this.props.searchAction}
                 >
-                    <Image style={{height: 20, width: 20}} source={{uri: 'ic_homepage_search'}}/>
+                    <Image style={{height: 24, width: 24}} source={require('../resource/ic_input_search.png')}/>
                 </TouchableOpacity>
             </View>
         )
@@ -45,44 +43,43 @@ export default class SearchInputBar extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    navigationBar: {
-        height: 64,
-        paddingTop: 20,
-        justifyContent: 'space-between',
+    searchContainer: {
+        flexDirection: 'row',
+        height: Platform.OS === 'ios' ? 64 : 50,
+        paddingTop: Platform.OS === 'ios' ? 20 : 0,
         alignItems: 'center',
-        borderBottomColor: '#e9e9e9',
-        borderBottomWidth: 1 / PixelRatio.get(),
-        backgroundColor: 'white',
-        flexDirection: 'row'
-    },
-
-    leftIcon: {
         justifyContent: 'center',
-        alignItems: 'center',
-        width: 44,
-        height: 44,
+        borderBottomColor: '#ccc',
+        borderBottomWidth: Common.window.onePR,
+        backgroundColor: 'white',
     },
 
     textInput: {
-        width: Common.window.width * 0.7,
-        height: 30,
-        marginTop: 9,
+        width: Common.window.width - 15 - 30 - 20,
+        height: 40,
         paddingLeft: 5,
+        marginLeft: 5,
+        marginTop: 2,
         fontSize: 14,
     },
 
-    searchIcon: {
-        width: 44,
-        height: 44,
+    backIcon: {
+        position: 'absolute',
+        left: 0,
+        top: Platform.OS === 'ios' ? 20 : 0,
+        width: Platform.OS === 'ios' ? 44 : 50,
+        height: Platform.OS === 'ios' ? 44 : 50,
         justifyContent: 'center',
         alignItems: 'center'
     },
 
-    statusBar: {
+    searchIcon: {
         position: 'absolute',
-        top: 0,
-        height: 20,
-        width: Common.window.width,
-        backgroundColor: Common.colors.themeColor
-    },
+        right: 0,
+        top: Platform.OS === 'ios' ? 20 : 0,
+        width: Platform.OS === 'ios' ? 44 : 50,
+        height: Platform.OS === 'ios' ? 44 : 50,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
 })

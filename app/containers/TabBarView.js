@@ -3,60 +3,46 @@
  */
 import React from 'react';
 import {
-    TabBarIOS,
     View,
     Text,
 } from 'react-native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import StrollingContainer from '../containers/StrollingContainer';
-import FoodsContainer from '../containers/FoodsContainer';
-import UserContainer from '../containers/UserContainer';
-import Constants from '../common/constants';
+import Feed from '../pages/feed/Feed';
+import FoodEncyclopedia from '../pages/FoodEncyclopedia';
+import Profile from '../pages/profile/Profile';
+import TabBar from '../components/TabBar';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-const tabBarItems = [
-    {title: '逛吃', icon: 'shopping-basket', component: StrollingContainer},
-    {title: '食物百科', icon: 'book', component: FoodsContainer},
-    {title: '我的', icon: 'user', component: UserContainer},
-]
+const tabTitles = ['食物百科', '逛吃', '我的'];
+const tabIcons = [
+    require('../resource/ic_tab_search.png'),
+    require('../resource/ic_tab_homepage.png'),
+    require('../resource/ic_tab_my.png')
+];
+const tabSelectedIcon = [
+    require('../resource/ic_tab_search_select.png'),
+    require('../resource/ic_tab_homepage_select.png'),
+    require('../resource/ic_tab_my_select.png')
+];
 
 export default class TabBarView extends React.Component {
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            selectedTab: tabBarItems[0].title,
-        };
-    }
-
     render() {
-        
         return (
-            <TabBarIOS tintColor={Constants.colors.themeColor}>
-                {
-                    tabBarItems.map((controller, i) => {
-
-                        let Component = controller.component;
-
-                        return (
-                            <FontAwesome.TabBarItem
-                                key={i}
-                                title={controller.title}
-                                iconName={controller.icon}
-                                selectedIconName={controller.icon}
-                                selected={this.state.selectedTab === controller.title}
-                                onPress={() => {
-                                    this.setState({
-                                       selectedTab: controller.title
-                                    })
-                                }}
-                            >
-                                <Component navigator = {this.props.navigator} {...this.props}/>
-                            </FontAwesome.TabBarItem>
-                        )
-                    })
+            <ScrollableTabView
+                renderTabBar={() =>
+                    <TabBar
+                        tabNames={tabTitles}
+                        tabIconNames={tabIcons}
+                        selectedTabIconNames={tabSelectedIcon}
+                    />
                 }
-            </TabBarIOS>
+                tabBarPosition='bottom'
+                locked={true}
+                scrollWithoutAnimation={true}
+            >
+                <FoodEncyclopedia tabLabel="Food" navigator={this.props.navigator}/>
+                <Feed tabLabel="Home" navigator={this.props.navigator}/>
+                <Profile tabLabel="Profile" navigator={this.props.navigator}/>
+            </ScrollableTabView>
         )
     }
 }
